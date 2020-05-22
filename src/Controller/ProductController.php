@@ -19,14 +19,22 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  */
 class ProductController extends AbstractController
 {
-     /**
-     * @Route("/{id}", name="app_product_show", methods={"GET"})
-     */
-    public function show(Product $product, ProductRepository $productRepository, SerializerInterface $serializer)
+
+    private $serializer;
+
+    public function __construct(SerializerInterface $serializer)
+    {
+        $this->serializer = $serializer;
+    }
+
+    /**
+    * @Route("/{id}", name="app_product_show", methods={"GET"})
+    */
+    public function show(Product $product, ProductRepository $productRepository)
     {
         $product = $productRepository->find($product->getId());
         
-        $data = $serializer->serialize($product, 'json', [
+        $data = $this->serializer->serialize($product, 'json', [
             'groups' => ['show']
         ]);
 
@@ -38,7 +46,7 @@ class ProductController extends AbstractController
     /**
      * @Route("/{page<\d+>?1}", name="app_product_index", methods={"GET"})
      */
-    public function index(Request $request, ProductRepository $productRepository, SerializerInterface $serializer): Response
+    public function index(Request $request, ProductRepository $productRepository): Response
     {
         $page = $request->query->get('page');
         if (is_null($page) || $page < 1) {
@@ -47,25 +55,26 @@ class ProductController extends AbstractController
         
         $limit = 10;
     
-        $data = $serializer->serialize($productRepository->findAllProduct($page,$limit), 'json',[
+        $data = $this->serializer->serialize($productRepository->findAllProduct($page, $limit), 'json', [
             'groups' => ['index']
         ]);
 
-        return new Response($data,200,[
+        return new Response($data, 200, [
             'Content-Type' => 'application/json'
         ]);
     }
 
+
     /**
      * @Route("", name="app_product_new", methods={"POST"})
      */
-    public function new(Request $request, SerializerInterface $serializer, EntityManagerInterface $entityManager, ValidatorInterface $validator)
+    public function new(Request $request, EntityManagerInterface $entityManager, ValidatorInterface $validator)
     {
-        $product = $serializer->deserialize($request->getContent(), Product::class, 'json');
-       $errors =$validator->validate($product);
+        $product = $thisserializer->deserialize($request->getContent(), Product::class, 'json');
 
-        if (count($errors)) {
-            $errors = $serializer->serialize($errors, 'json');
+        $errors = $validator->validate($product);
+        if(count($errors)) {
+            $errors = $this->serializer->serialize($errors, 'json');
             return new Response($errors, 500, [
                 'Content-Type' => 'application/json'
             ]);
@@ -80,5 +89,51 @@ class ProductController extends AbstractController
         ];
 
         return new JsonResponse($data, 201);
+    }
+
+
+    /**
+     * @Route("/{id}", name="app_product_update", methods={"PUT"})
+     */
+    public function update(Request $request, Product $product, ValidatorInterface $validator, EntityManagerInterface $entityManager)
+    {
+        $data = json_decode($request->getContent());
+        
+        foreach ($data as $key => $value) {
+            if ($key && !empty($value)) {
+                $name = ucfirst($key);
+                $setter = 'set'.$name;
+                $product->$setter($value);
+            }
+        }
+
+        $errors = $validator->validate($product);
+        if(count($errors)) {
+            $errors = $this->serializer->serialize($errors, 'json');
+            return new Response($errors, 500, [
+                'Content-Type' => 'application/json'
+            ]);
+        }
+
+        $entityManager->flush();
+
+        $data = [
+            'status' => 200,
+            'message' => 'Le product a bien été mis à jour.'
+        ];
+
+        return new JsonResponse($data);
+    }
+
+
+    /**
+     * @Route("/{id}", name="app_product_delete", methods={"DELETE"})
+     */
+    public function delete(Product $product, EntityManagerInterface $entityManager)
+    {
+        $entityManager->remove($product);
+        $entityManager->flush();
+
+        return new Response(null, 204);
     }
 }
