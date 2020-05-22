@@ -2,12 +2,14 @@
 
 namespace App\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
+ * @UniqueEntity(fields={"reference"}, message="Ce produit existe déjà.")
  */
 class Product
 {
@@ -20,7 +22,7 @@ class Product
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      * @Groups({"index", "show"})
      * @Assert\NotBlank(message="Ce champs ne peut être vide.")
      * @Assert\Length(min="5", max="15",
