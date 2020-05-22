@@ -10,11 +10,6 @@
             <tr>
                 <th>Id</th>
                 <th>Reference</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>actions</th>
             </tr>
         </thead>
         <tbody>
@@ -22,14 +17,6 @@
             <tr>
                 <td>{{ product.id }}</td>
                 <td>{{ product.reference }}</td>
-                <td>{{ product.name }}</td>
-                <td>{{ product.description }}</td>
-                <td>{{ product.price }}</td>
-                <td>{{ product.quantity }}</td>
-                <td>
-                    <a href="{{ path('product_show', {'id': product.id}) }}">show</a>
-                    <a href="{{ path('product_edit', {'id': product.id}) }}">edit</a>
-                </td>
             </tr>
         {% else %}
             <tr>

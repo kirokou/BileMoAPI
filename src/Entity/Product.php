@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
@@ -13,31 +14,37 @@ class Product
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"index", "show"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"index", "show"})
      */
     private $reference;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"index", "show"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="text")
+     * @Groups({"show"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups({"index", "show"})
      */
     private $price;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"show"})
      */
     private $quantity;
 
