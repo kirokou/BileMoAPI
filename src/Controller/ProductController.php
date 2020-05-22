@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
@@ -58,10 +59,18 @@ class ProductController extends AbstractController
     /**
      * @Route("", name="app_product_new", methods={"POST"})
      */
-    public function new(Request $request, SerializerInterface $serializer, EntityManagerInterface $entityManager)
+    public function new(Request $request, SerializerInterface $serializer, EntityManagerInterface $entityManager, ValidatorInterface $validator)
     {
         $product = $serializer->deserialize($request->getContent(), Product::class, 'json');
-       
+       $errors =$validator->validate($product);
+
+        if (count($errors)) {
+            $errors = $serializer->serialize($errors, 'json');
+            return new Response($errors, 500, [
+                'Content-Type' => 'application/json'
+            ]);
+        }
+
         $entityManager->persist($product);
         $entityManager->flush();
 

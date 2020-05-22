@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -21,30 +22,50 @@ class Product
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"index", "show"})
+     * @Assert\NotBlank(message="Ce champs ne peut être vide.")
+     * @Assert\Length(min="5", max="15",
+     *   minMessage="Ce champ doit contenir un minimum de {{ limit }} caractères.",
+     *   maxMessage="Ce champ doit contenir un maximum de {{ limit }} caractères."
+     * )
      */
     private $reference;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"index", "show"})
+     * @Assert\NotBlank(message="Ce champs ne peut être vide.")
+     * @Assert\Length(min="5", max="100",
+     *   minMessage="Ce champ doit contenir un minimum de {{ limit }} caractères.",
+     *   maxMessage="Ce champ doit contenir un maximum de {{ limit }} caractères.")
      */
     private $name;
 
     /**
      * @ORM\Column(type="text")
      * @Groups({"show"})
+     * @Assert\NotBlank(message="Ce champs ne peut être vide.")
      */
     private $description;
 
     /**
      * @ORM\Column(type="float")
      * @Groups({"index", "show"})
+     * @Assert\NotBlank(message="Ce champs ne peut être vide.")
+     * @Assert\Range(min="500", max="1500",
+     *   minMessage="Ce champ doit être supérieur ou égale à {{ limit }}.",
+     *   maxMessage="Ce champ doit être inférieur ou égale à {{ limit }}."
+     * )
      */
     private $price;
 
     /**
      * @ORM\Column(type="integer")
      * @Groups({"show"})
+     * @Assert\NotBlank(message="Ce champs ne peut être vide.")
+     * @Assert\Range(min="5", max="1000",
+     *  minMessage="Ce champ doit être supérieur ou égale à {{ limit }}.",
+     *  maxMessage="Ce champ doit être inférieur ou égale à {{ limit }}."
+     * )
      */
     private $quantity;
 
