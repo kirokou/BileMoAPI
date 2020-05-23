@@ -54,7 +54,7 @@ class ProductController extends AbstractController
             $page = 1;
         }
         
-        $limit = 10;
+        $limit = 5;
     
         $data = $this->serializer->serialize($productRepository->findAllProduct($page, $limit), 'json', [
             'groups' => ['index']

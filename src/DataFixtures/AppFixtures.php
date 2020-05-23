@@ -12,7 +12,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
 {
-
     public function __construct(UserPasswordEncoderInterface $passwordEncoder)
     {
         $this->passwordEncoder = $passwordEncoder;
@@ -22,39 +21,40 @@ class AppFixtures extends Fixture
     {
         $faker = Factory::create('fr_FR');
 
-        // Product
+        /** PRODUCT */
         foreach ($this->getData() as [$name, $reference, $description]) 
         {
             $product = new Product();
-                $product->setName($name);
-                $product->setReference($reference);
-                $product->setDescription($description);
-                $product->setPrice($faker->randomFloat($nbMaxDecimals = 2, $min = 500, $max =1500));    
-                $product->setQuantity($faker->numberBetween($min = 5, $max = 1000));
+            $product->setName($name)
+                    ->setReference($reference)
+                    ->setDescription($description)
+                    ->setPrice($faker->randomFloat($nbMaxDecimals = 2, $min = 500, $max =1500))  
+                    ->setQuantity($faker->numberBetween($min = 5, $max = 1000));
 
-                $manager->persist($product);
+            $manager->persist($product);
         }
 
-        // Client
+        /** CLIENT */
         for($k=0; $k<=3; $k++)
         {
             $client = new Client();
-            $client->setCompanyName($faker->company);
-            $client->setEmail($faker->email);
-            $password=$this->passwordEncoder->encodePassword($client,'openclassrooms-P7');
-            $client->setPassword($password);
-            $client->setRoles(['ROLE_ADMIN']);
+            $password = $this->passwordEncoder->encodePassword($client,'openclassrooms-P7');
+
+            $client->setName($faker->company)
+                    ->setEmail($faker->email)
+                    ->setPassword($password)
+                    ->setRoles(['ROLE_ADMIN']);
+
             $manager->persist($client);
 
+            /** USER */
             for($l=0; $l<=4; $l++)
             {
-                $user = new User();
-                $user->setFirstname($faker->firstName);
-                $user->setLastname($faker->lastName);
-                $user->setEmail($faker->email);
-                //$password=$this->passwordEncoder->encodePassword($user,'openclassrooms-P7');
-                $user->setPassword('mot de pass');
-                $user->setClient($client);
+                $user = (new User());
+                $user->setFirstname($faker->firstName)
+                     ->setLastname($faker->lastName)
+                     ->setEmail($faker->email)
+                     ->setClient($client);
 
                 $manager->persist($user);
             }
@@ -75,7 +75,7 @@ class AppFixtures extends Fixture
             ],
             [
                 'Samsung Galaxy S8 32Go Rouge',
-                'S0S7_32N',
+                'S0S7_32GG',
                 'Samsung Galaxy S8. La solution de sécurité dédiée de Samsung offre une protection permanente contre les pirates et les programmes malveillants par le biais de mises à jour régulières. De plus, la S7 fournit une sécurité supplémentaire en isolant et en cryptant vos données sensibles.',
             ],
             [
