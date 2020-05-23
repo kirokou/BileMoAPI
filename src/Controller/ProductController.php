@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
@@ -67,10 +68,11 @@ class ProductController extends AbstractController
 
     /**
      * @Route("", name="app_product_new", methods={"POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function new(Request $request, EntityManagerInterface $entityManager, ValidatorInterface $validator)
     {
-        $product = $thisserializer->deserialize($request->getContent(), Product::class, 'json');
+        $product = $this->serializer->deserialize($request->getContent(), Product::class, 'json');
 
         $errors = $validator->validate($product);
         if(count($errors)) {
