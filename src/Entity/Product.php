@@ -2,8 +2,8 @@
 
 namespace App\Entity;
 
+use JMS\Serializer\Annotation as Serializer;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -17,13 +17,13 @@ class Product
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"index", "show"})
+     * @Serializer\Groups({"list","detail"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
-     * @Groups({"index", "show"})
+     * @Serializer\Groups({"list","detail"})
      * @Assert\NotBlank(message="Ce champs ne peut être vide.")
      * @Assert\Length(min="5", max="15",
      *   minMessage="Ce champ doit contenir un minimum de {{ limit }} caractères.",
@@ -34,7 +34,7 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"index", "show"})
+     * @Serializer\Groups({"list","detail"})
      * @Assert\NotBlank(message="Ce champs ne peut être vide.")
      * @Assert\Length(min="5", max="100",
      *   minMessage="Ce champ doit contenir un minimum de {{ limit }} caractères.",
@@ -44,14 +44,14 @@ class Product
 
     /**
      * @ORM\Column(type="text")
-     * @Groups({"show"})
      * @Assert\NotBlank(message="Ce champs ne peut être vide.")
+     * @Serializer\Groups({"list"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="float")
-     * @Groups({"index", "show"})
+     * @Serializer\Groups({"list","detail"})
      * @Assert\NotBlank(message="Ce champs ne peut être vide.")
      * @Assert\Range(min="500", max="1500",
      *   minMessage="Ce champ doit être supérieur ou égale à {{ limit }}.",
@@ -62,7 +62,7 @@ class Product
 
     /**
      * @ORM\Column(type="integer")
-     * @Groups({"show"})
+     * @Serializer\Groups({"list","detail"})
      * @Assert\NotBlank(message="Ce champs ne peut être vide.")
      * @Assert\Range(min="5", max="1000",
      *  minMessage="Ce champ doit être supérieur ou égale à {{ limit }}.",
