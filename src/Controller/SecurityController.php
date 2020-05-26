@@ -14,7 +14,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-
+/**
+* @Route("/api")
+*/
 class SecurityController extends AbstractController
 {
     private $serializer;
@@ -42,7 +44,7 @@ class SecurityController extends AbstractController
         $errors = $this->validator->validate($client);
         if(count($errors)) {
             $errors = $this->serializer->serialize($errors, 'json');
-            return new Response($errors, 500, [
+            return new Response($errors, 400, [
                 'Content-Type' => 'application/json'
             ]);
         }

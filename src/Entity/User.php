@@ -2,10 +2,14 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation as Serializer;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity(fields={"email"}, message="Cet utilisateur existe déjà.")
  */
 class User
 {
@@ -13,27 +17,44 @@ class User
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Serializer\Groups({"user_list","user_detail"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Ce champs ne peut être vide.")
+     * @Assert\Length(min="5", max="255",
+     *   minMessage="Ce champ doit être supérieur ou égale à {{ limit }}.",
+     *   maxMessage="Ce champ doit être inférieur ou égale à {{ limit }}."
+     * )
+     * @Serializer\Groups({"user_list","user_detail"})
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Ce champs ne peut être vide.")
+     * @Assert\Length(min="5", max="255",
+     *   minMessage="Ce champ doit être supérieur ou égale à {{ limit }}.",
+     *   maxMessage="Ce champ doit être inférieur ou égale à {{ limit }}."
+     * )
+     * @Serializer\Groups({"user_list","user_detail"})
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Ce champs ne peut être vide.")
+     * @Assert\Email(message="Le format de l'email est incorrect")
+     * @Serializer\Groups({"user_list","user_detail"})
      */
     private $email;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Client", inversedBy="users")
      * @ORM\JoinColumn(nullable=false)
+     * @Serializer\Groups({"user_detail","client_detail"})
      */
     private $client;
 

@@ -17,13 +17,13 @@ class Product
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Serializer\Groups({"list","detail"})
+     * @Serializer\Groups({"product_list","product_detail"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
-     * @Serializer\Groups({"list","detail"})
+     * @Serializer\Groups({"product_list","product_detail"})
      * @Assert\NotBlank(message="Ce champs ne peut être vide.")
      * @Assert\Length(min="5", max="15",
      *   minMessage="Ce champ doit contenir un minimum de {{ limit }} caractères.",
@@ -34,7 +34,7 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Serializer\Groups({"list","detail"})
+     * @Serializer\Groups({"product_list","product_detail"})
      * @Assert\NotBlank(message="Ce champs ne peut être vide.")
      * @Assert\Length(min="5", max="100",
      *   minMessage="Ce champ doit contenir un minimum de {{ limit }} caractères.",
@@ -45,13 +45,13 @@ class Product
     /**
      * @ORM\Column(type="text")
      * @Assert\NotBlank(message="Ce champs ne peut être vide.")
-     * @Serializer\Groups({"list"})
+     * @Serializer\Groups({"product_list"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="float")
-     * @Serializer\Groups({"list","detail"})
+     * @Serializer\Groups({"product_list","product_detail"})
      * @Assert\NotBlank(message="Ce champs ne peut être vide.")
      * @Assert\Range(min="500", max="1500",
      *   minMessage="Ce champ doit être supérieur ou égale à {{ limit }}.",
@@ -62,7 +62,7 @@ class Product
 
     /**
      * @ORM\Column(type="integer")
-     * @Serializer\Groups({"list","detail"})
+     * @Serializer\Groups({"product_list","product_detail"})
      * @Assert\NotBlank(message="Ce champs ne peut être vide.")
      * @Assert\Range(min="5", max="1000",
      *  minMessage="Ce champ doit être supérieur ou égale à {{ limit }}.",
