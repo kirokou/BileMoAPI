@@ -44,6 +44,7 @@ class SecurityController extends AbstractController
         $errors = $this->validator->validate($client);
         if(count($errors)) {
             $errors = $this->serializer->serialize($errors, 'json');
+
             return new Response($errors, 400, [
                 'Content-Type' => 'application/json'
             ]);
@@ -68,6 +69,7 @@ class SecurityController extends AbstractController
     public function login(Request $request)
     {
         $user = $this->getUser();
+        
         return $this->json([
             'username' => $user->getUsername(),
             'roles' => $user->getRoles()

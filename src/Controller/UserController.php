@@ -13,10 +13,12 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/api/user")
+ * @IsGranted("ROLE_ADMIN", statusCode=403, message="Access Denied")
  */
 class UserController extends AbstractController
 {
@@ -49,7 +51,16 @@ class UserController extends AbstractController
     {
         $user = $userRepository->findOneBy(['client'=>$this->getUser()->getId(), 'id'=>$user->getId()]);
 
-        $data = $this->serializer->serialize($user, 'json', $this->getContext(['user_detail','client_detail']));
+        if (\is_null($user)) {
+            $data = [
+                'status' => 403,
+                'message' => 'Accès non autorisé.'
+            ];
+
+            return new JsonResponse($data, 403);
+        }
+        
+        $data = $this->serializer->serialize($user, 'json', $this->getContext(['user_detail','client_detail','default']));
 
         return new Response($data, 200, [
             'Content-Type' => 'application/json'
@@ -66,6 +77,7 @@ class UserController extends AbstractController
         $errors = $validator->validate($user);
         if(count($errors)) {
             $errors = $this->serializer->serialize($errors, 'json');
+
             return new Response($errors, 400, [
                 'Content-Type' => 'application/json'
             ]);

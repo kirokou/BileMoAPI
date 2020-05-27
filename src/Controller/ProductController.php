@@ -37,7 +37,7 @@ class ProductController extends AbstractController
     public function show(Product $product, ProductRepository $productRepository)
     {
         $product = $productRepository->find($product->getId());
-        $data = $this->serializer->serialize($product, 'json', $this->getContext(['product_detail']));
+        $data = $this->serializer->serialize($product, 'json', $this->getContext(['product_detail','default']));
 
         return new Response($data, 200, [
             'Content-Type' => 'application/json'
@@ -50,7 +50,7 @@ class ProductController extends AbstractController
     public function index(Request $request, ProductRepository $productRepository): Response
     {
         $product = $productRepository->findAll();
-        $data = $this->serializer->serialize($product,'json', $this->getContext());
+        $data = $this->serializer->serialize($product,'json', $this->getContext(['product_list']));
 
         return new Response($data, 200, [
             'Content-Type' => 'application/json'
