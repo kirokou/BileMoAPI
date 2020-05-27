@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use JMS\Serializer\Annotation as Serializer;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
@@ -19,11 +20,13 @@ class Client implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Serializer\Groups({"client_list","client_detail"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Serializer\Groups({"client_list","client_detail"})
      * @Assert\NotBlank(message="Ce champs ne peut être vide.")
      * @Assert\Email(strict=true, message="Le format de l'email est incorrect")
      */
@@ -31,6 +34,7 @@ class Client implements UserInterface
 
     /**
      * @ORM\Column(type="json")
+     * @Serializer\Groups({"client_detail"})
      */
     private $roles = [];
 
@@ -46,6 +50,7 @@ class Client implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Serializer\Groups({"client_list","client_detail"})
      * @Assert\NotBlank(message="Ce champs ne peut être vide.")
      * @Assert\Length(min="5", max="50",
      *   minMessage="Ce champ doit contenir un minimum de {{ limit }} caractères.",
@@ -56,6 +61,7 @@ class Client implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="client", orphanRemoval=true)
+     * @Serializer\Groups({"client_list"})
      */
     private $users;
 
