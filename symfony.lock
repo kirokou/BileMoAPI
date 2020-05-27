@@ -535,6 +535,12 @@
     "webmozart/assert": {
         "version": "1.7.0"
     },
+    "willdurand/hateoas": {
+        "version": "3.6.0"
+    },
+    "willdurand/hateoas-bundle": {
+        "version": "2.1.0"
+    },
     "zendframework/zend-code": {
         "version": "3.4.1"
     },
