@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Service\DbService;
 use App\Repository\UserRepository;
 use JMS\Serializer\SerializerInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -34,8 +35,17 @@ class UserController extends AbstractController
     /**
     * @Route("/", name="app_user_index", methods={"GET"})
     */
-    public function index(Request $request, UserRepository $userRepository): Response
+    public function index(Request $request, UserRepository $userRepository, DbService $dbService): Response
     {
+        // Cache Management
+        $response = new JsonResponse();
+        $response->setEtag(md5($dbService->getLastUpdate('user')));
+        $response->setPublic();
+
+        if ($response->isNotModified($request)) {
+            return $response;
+        }
+
         $user = $userRepository->findBy(['client'=>$this->getUser()->getId()], []);
         $data = $this->serializer->serialize($user,'json', $this->getContext());
 

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Form\ProductType;
+use App\Service\DbService;
 use App\Repository\ProductRepository;
 use JMS\Serializer\SerializerInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -47,8 +48,17 @@ class ProductController extends AbstractController
     /**
      * @Route("/", name="app_product_index", methods={"GET"})
      */
-    public function index(Request $request, ProductRepository $productRepository): Response
+    public function index(Request $request, ProductRepository $productRepository, DbService $dbService): Response
     {
+         // Cache Management
+         $response = new JsonResponse();
+         $response->setEtag(md5($dbService->getLastUpdate('product')));
+         $response->setPublic();
+ 
+         if ($response->isNotModified($request)) {
+             return $response;
+         }
+         
         $product = $productRepository->findAll();
         $data = $this->serializer->serialize($product,'json', $this->getContext(['product_list']));
 
