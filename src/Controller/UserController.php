@@ -45,7 +45,7 @@ class UserController extends AbstractController
      * 
      * @SWG\Response(
      *    response=204,
-     *    description="OK",
+     *    description="NO CONTENT",
      * )
      * 
      * @SWG\Response(
@@ -60,7 +60,8 @@ class UserController extends AbstractController
      *     response=401,
      *     description="UNAUTHORIZED - JWT Token not found | Expired JWT Token | Invalid JWT Token"
      * )
-     *  
+     * @nSecurity(name="Bearer")
+     * 
      * @param  mixed $request
      * @param  mixed $userRepository
      * @param  mixed $dbService
@@ -107,7 +108,7 @@ class UserController extends AbstractController
      *     response=404,
      *     description="NOT FOUND"
      * )
-     * 
+     * @nSecurity(name="Bearer")
      * 
      * @param  mixed $user
      * @param  mixed $userRepository
@@ -141,7 +142,7 @@ class UserController extends AbstractController
      * 
      * @SWG\Response(
      *    response=204,
-     *    description="OK",
+     *    description="NO CONTENT",
      * )
      * 
      * @SWG\Parameter(
@@ -232,6 +233,8 @@ class UserController extends AbstractController
      *     response=404,
      *     description="NOT FOUND"
      * )
+     * 
+     * @nSecurity(name="Bearer")
      * 
      * @param  mixed $user
      * 

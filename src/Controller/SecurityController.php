@@ -39,6 +39,21 @@ class SecurityController extends AbstractController
      * 
      * @SWG\Tag(name="Authentication")
      * 
+     * @SWG\Parameter(
+     *   name="Register",
+     *   description="Register",
+     *   in="body",
+     *   required=true,
+     *   type="string",
+     *   @SWG\Schema(
+     *     type="object",
+     *     title="Authentication field",
+     *     @SWG\Property(property="email", type="string"),
+     *     @SWG\Property(property="password", type="string"),
+     *     @SWG\Property(property="name", type="string")
+     *     )
+     * )
+     * 
      * @SWG\Response(
      *    response=204,
      *    description="OK",
@@ -64,7 +79,7 @@ class SecurityController extends AbstractController
         }
 
         $client->setPassword($passwordEncoder->encodePassword($client, $values->password));
-        $client->setRoles($client->getRoles());
+        $client->setRoles(['ROLE_USER']);
         $entityManager->persist($client);
         $entityManager->flush();
 
@@ -78,7 +93,8 @@ class SecurityController extends AbstractController
 
     /**
      * Get app token for sign in and query API
-     * @Route("/login", name="login", methods={"POST"})
+     * 
+     * @Route("/login_check", name="login", methods={"POST"})
      * 
      * @SWG\Tag(name="Authentication")
      * 
@@ -91,7 +107,7 @@ class SecurityController extends AbstractController
      *   @SWG\Schema(
      *     type="object",
      *     title="Authentication field",
-     *     @SWG\Property(property="email", type="string"),
+     *     @SWG\Property(property="username", type="string"),
      *     @SWG\Property(property="password", type="string")
      *     )
      * )
@@ -120,7 +136,6 @@ class SecurityController extends AbstractController
     public function login(Request $request)
     {
         $user = $this->getUser();
-        
         return $this->json([
             'username' => $user->getUsername(),
             'roles' => $user->getRoles()

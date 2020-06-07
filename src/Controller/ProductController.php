@@ -152,16 +152,12 @@ class ProductController extends AbstractController
      *   type="string",
      *   @SWG\Schema(
      *       title="Product fields",
-     *       required={"brand", "model", "reference", "dateRelease"},
-     *       @SWG\Property(property="brand", type="string", example="Apple"),
-     *       @SWG\Property(property="model", type="string", example="Iphone X"),
-     *       @SWG\Property(property="color", type="string", example="Red"),
-     *       @SWG\Property(property="stock", type="integer", example="125"),
-     *       @SWG\Property(property="dateRelease", type="string", example="2018-12-15"),
-     *       @SWG\Property(property="reference", type="string", example="AB156-458", description="max length : 15 car."),
-     *       @SWG\Property(property="price", type="double", example="725.53", description="Required if a currency is given."),
-     *       @SWG\Property(property="currency", type="string", example="EUR", description="Must comply with ISO-4217 standard. Required if price is given."),
-     *       @SWG\Property(property="description", type="string", example="Un téléphone dernière génération à la qualité éprouvée")
+     *       required={"reference", "name", "description", "price", "quantity"},
+     *       @SWG\Property(property="reference", type="string", example="124ASD"),
+     *       @SWG\Property(property="name", type="string", example="Iphone 7"),
+     *       @SWG\Property(property="description", type="string", example="Un téléphone dernière génération à la qualité éprouvée"),
+     *       @SWG\Property(property="price", type="float", example=725.53),
+     *       @SWG\Property(property="quantity", type="integer", example=15)
      *     )
      * )
      * @SWG\Response(
@@ -235,15 +231,11 @@ class ProductController extends AbstractController
     *   type="string",
     *   @SWG\Schema(
     *       title="Product fields",
-    *       @SWG\Property(property="brand", type="string", example="Apple"),
-    *       @SWG\Property(property="model", type="string", example="Iphone X"),
-    *       @SWG\Property(property="color", type="string", example="Red"),
-    *       @SWG\Property(property="stock", type="integer", example="125"),
-    *       @SWG\Property(property="dateRelease", type="string", example="2018-12-15"),
-    *       @SWG\Property(property="reference", type="string", example="AB156-458", description="max length : 15 car."),
-    *       @SWG\Property(property="price", type="double", example="725.53", description="Required if a currency is given."),
-    *       @SWG\Property(property="currency", type="string", example="EUR", description="Must comply with ISO-4217 standard. Required if price is given."),
-    *       @SWG\Property(property="description", type="string", example="Un téléphone dernière génération à la qualité éprouvée")
+    *       @SWG\Property(property="reference", type="string", example="124ASD"),
+    *       @SWG\Property(property="name", type="string", example="Iphone 7"),
+    *       @SWG\Property(property="description", type="string", example="Un téléphone dernière génération à la qualité éprouvée"),
+    *       @SWG\Property(property="price", type="float", example=725.53),
+    *       @SWG\Property(property="quantity", type="integer", example=15)
     *     )
     * )
     *
