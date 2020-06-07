@@ -28,7 +28,7 @@ class Client implements UserInterface
      * @ORM\Column(type="string", length=180, unique=true)
      * @Serializer\Groups({"client_list","client_detail"})
      * @Assert\NotBlank(message="Ce champs ne peut être vide.")
-     * @Assert\Email(strict=true, message="Le format de l'email est incorrect")
+     * @Assert\Email(message="Le format de l'email est incorrect")
      */
     private $email;
 
