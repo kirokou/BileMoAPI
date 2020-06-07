@@ -43,7 +43,7 @@ class AppFixtures extends Fixture
             $client->setName($faker->company)
                     ->setEmail($faker->email)
                     ->setPassword($password)
-                    ->setRoles(['ROLE_ADMIN']);
+                    ->setRoles(['ROLE_USER']);
 
             $manager->persist($client);
 
@@ -59,7 +59,6 @@ class AppFixtures extends Fixture
                 $manager->persist($user);
             }
         }
-
         $manager->flush();
     }
 
