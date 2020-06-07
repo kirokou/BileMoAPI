@@ -3,7 +3,6 @@ security:
         App\Entity\Client:
             algorithm: auto
 
-
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         # used to reload user from session & other features (e.g. switch_user)
@@ -13,6 +12,9 @@ security:
                 property: email
         # used to reload user from session & other features (e.g. switch_user)
     firewalls:
+        api_doc:
+            pattern: ^/api/doc
+            security: false
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
