@@ -76,5 +76,5 @@ Seuls les clients référencés peuvent accéder aux API. Les clients de l’API
     By default the Client's Role is ROLE_USER. He can see only his users.
     You can change your Role is data base to be ADMIN. 
 
-## UML Diagramm.
-
+## UML Diagramms.
+BileMoApi/public/diagrammes
