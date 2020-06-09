@@ -34,64 +34,6 @@ class SecurityController extends AbstractController
     }
     
     /**
-     * Only Bilmo Admin can register client
-     * @Route("/register", name="register", methods={"POST"})
-     * 
-     * @SWG\Tag(name="Authentication")
-     * 
-     * @SWG\Parameter(
-     *   name="Register",
-     *   description="Register",
-     *   in="body",
-     *   required=true,
-     *   type="string",
-     *   @SWG\Schema(
-     *     type="object",
-     *     title="Authentication field",
-     *     @SWG\Property(property="email", type="string"),
-     *     @SWG\Property(property="password", type="string"),
-     *     @SWG\Property(property="name", type="string")
-     *     )
-     * )
-     * 
-     * @SWG\Response(
-     *    response=204,
-     *    description="OK",
-     * )
-     */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $entityManager)
-    {
-        $values = json_decode($request->getContent());
-
-        //Validations
-        $client = new Client();
-        $client->setEmail($values->email);
-        $client->setPassword($values->password);
-        $client->setName($values->name);
-
-        $errors = $this->validator->validate($client);
-        if(count($errors)) {
-            $errors = $this->serializer->serialize($errors, 'json');
-
-            return new Response($errors, 400, [
-                'Content-Type' => 'application/json'
-            ]);
-        }
-
-        $client->setPassword($passwordEncoder->encodePassword($client, $values->password));
-        $client->setRoles(['ROLE_USER']);
-        $entityManager->persist($client);
-        $entityManager->flush();
-
-        $data = [
-            'status' => 201,
-            'message' => 'L\'utilisateur a été créé'
-        ];
-
-        return new JsonResponse($data, 201);
-    }
-
-    /**
      * Get app token for sign in and query API
      * 
      * @Route("/login_check", name="login", methods={"POST"})
