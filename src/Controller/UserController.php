@@ -24,7 +24,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
- * @Route("/api/user")
+ * @Route("/api/users")
  * @IsGranted("ROLE_ADMIN", statusCode=403, message="Access Denied")
  */
 class UserController extends AbstractController

@@ -22,15 +22,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      )
  * )
  * 
- * @Hateoas\Relation(
- *      "modify",
- *      href = @Hateoas\Route(
- *          "app_user_update",
- *          parameters = { "id" = "expr(object.getId())" },
- *          absolute = true
- *      ),
- *  exclusion = @Hateoas\Exclusion(groups={"default"})
- * )
  * 
  * @Hateoas\Relation(
  *      "delete",

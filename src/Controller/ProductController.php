@@ -23,7 +23,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
- * @Route("/api/product", defaults={"_format"="json"})
+ * @Route("/api/products", defaults={"_format"="json"})
  */
 class ProductController extends AbstractController
 {
